@@ -7,3 +7,4 @@ markdown
 django-filter 
 pillow
 ``
+拷入DjangoUeditor
