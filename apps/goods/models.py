@@ -66,7 +66,7 @@ class Goods(models.Model):
     goods_desc = UEditorField(verbose_name='内容', imagePath='goods/images/', width=1000, height=300,
                               filePath='goods/files/', default='')
     ship_free = models.BooleanField(default=True, verbose_name='是否承担运费')
-    goods_front_image = models.ImageField(upload_to='', null=True, blank=True, verbose_name='封面图')
+    goods_front_image = models.ImageField(upload_to='goods/images/', null=True, blank=True, verbose_name='封面图')
     is_new = models.BooleanField(default=False, verbose_name='是否新品')
     is_hot = models.BooleanField(default=False, verbose_name='是否热卖')
 
@@ -85,7 +85,7 @@ class GoodsImage(models.Model):
     商品轮播图
     """
     goods = models.ForeignKey(Goods, on_delete=models.CASCADE, verbose_name='商品', related_name='images')
-    image = models.ImageField(upload_to='', verbose_name='图片', null=True, blank=True)
+    image = models.ImageField(upload_to='brands/', verbose_name='图片', null=True, blank=True)
 
     add_time = models.DateTimeField(default=datetime.now, verbose_name='添加时间')
 
