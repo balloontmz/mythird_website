@@ -26,6 +26,7 @@ from goods.views import GoodsListView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('xadmin/', xadmin.site.urls),
+    # 用于api详情页面登录功能
     path('api-auth/', include('rest_framework.urls')),
     re_path('media/(?P<path>.*)', serve, {'document_root': MEDIA_ROOT}),
 
