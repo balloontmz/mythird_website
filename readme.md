@@ -15,6 +15,9 @@ httplib2==0.9.2
 six==1.10.0
 xlwt
 xlsxwriter
+pip install django-guardian
+pip install coreapi
 ``
 拷入DjangoUeditor
 考入xadmin
+chorme加入 vue devtools
