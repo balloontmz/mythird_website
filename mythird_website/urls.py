@@ -19,9 +19,20 @@ from django.views.static import serve
 from rest_framework.documentation import include_docs_urls
 import xadmin
 from mythird_website.settings import MEDIA_ROOT
+from rest_framework.routers import DefaultRouter
 
+from goods.views import GoodsListViewset
 # from goods.views_base import GoodsListView
-from goods.views import GoodsListView
+#from goods.views import GoodsListView
+
+# goods_list = GoodsListViewset.as_view({
+#     'get': 'list',
+# })
+
+router = DefaultRouter()
+
+# 配置商品列表页的url
+router.register('goods', GoodsListViewset)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,7 +42,9 @@ urlpatterns = [
     re_path('media/(?P<path>.*)', serve, {'document_root': MEDIA_ROOT}),
 
     # 商品列表页
-    path('goods/', GoodsListView.as_view(), name='goods-list'),
+    # path('goods/', goods_list, name='goods-list'),
+
+    path('', include(router.urls)),  # 此处为空字符串，切记
 
     path('docs/', include_docs_urls(title='tom')),
 ]
