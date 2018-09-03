@@ -21,6 +21,7 @@ import xadmin
 from mythird_website.settings import MEDIA_ROOT
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
+from rest_framework_jwt.views import obtain_jwt_token
 
 from goods.views import GoodsListViewset, CategoryViewset
 # from goods.views_base import GoodsListView
@@ -52,6 +53,9 @@ urlpatterns = [
     path('', include(router.urls)),  # 此处为空字符串，切记
 
     path('docs/', include_docs_urls(title='tom')),
-    #
+    # drf自带的认证模式
     path('api-token-auth', views.obtain_auth_token),
+
+    # jwt的认证接口
+    path('jwt-auth', obtain_jwt_token),
 ]
