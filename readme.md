@@ -22,3 +22,4 @@ pip install django-cors-headers
 拷入DjangoUeditor
 考入xadmin
 chorme加入 vue devtools
+chorme的servistate插件

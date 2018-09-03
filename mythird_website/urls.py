@@ -20,6 +20,7 @@ from rest_framework.documentation import include_docs_urls
 import xadmin
 from mythird_website.settings import MEDIA_ROOT
 from rest_framework.routers import DefaultRouter
+from rest_framework.authtoken import views
 
 from goods.views import GoodsListViewset, CategoryViewset
 # from goods.views_base import GoodsListView
@@ -42,6 +43,7 @@ urlpatterns = [
     path('xadmin/', xadmin.site.urls),
     # 用于api详情页面登录功能
     path('api-auth/', include('rest_framework.urls')),
+
     re_path('media/(?P<path>.*)', serve, {'document_root': MEDIA_ROOT}),
 
     # 商品列表页
@@ -50,4 +52,6 @@ urlpatterns = [
     path('', include(router.urls)),  # 此处为空字符串，切记
 
     path('docs/', include_docs_urls(title='tom')),
+    #
+    path('api-token-auth', views.obtain_auth_token),
 ]

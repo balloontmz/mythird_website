@@ -2,6 +2,7 @@
 # from rest_framework import status
 # from rest_framework.response import Response
 # from rest_framework import generics
+# from rest_framework.authentication import TokenAuthentication
 from rest_framework import mixins
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
@@ -63,6 +64,7 @@ class GoodsListViewset(mixins.ListModelMixin, viewsets.GenericViewSet):
     queryset = Goods.objects.all()
     serializer_class = GoodsSerializer
     pagination_class = StandardResultsSetPagination  # 此参数及功能在GenericApiView中
+    # authentication_classes = (TokenAuthentication, )  # 类内配置用户
     filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
     filter_class = GoodsFilter
     search_fields = ('name', 'goods_brief', 'goods_desc')
