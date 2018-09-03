@@ -20,7 +20,7 @@ class GoodsCategory(models.Model):
     category_type = models.IntegerField(choices=CATEGORY_TYPE, verbose_name='类目级别', help_text='类目级别')
     parent_category = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, verbose_name='父类别',
                                         related_name='sub_cat')
-    is_tab = models.BooleanField(default=False)
+    is_tab = models.BooleanField(default=False, verbose_name='是否导航')
     add_time = models.DateTimeField(default=datetime.now, verbose_name='添加时间')
 
     class Meta:

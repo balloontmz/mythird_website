@@ -21,7 +21,7 @@ import xadmin
 from mythird_website.settings import MEDIA_ROOT
 from rest_framework.routers import DefaultRouter
 
-from goods.views import GoodsListViewset
+from goods.views import GoodsListViewset, CategoryViewset
 # from goods.views_base import GoodsListView
 #from goods.views import GoodsListView
 
@@ -33,6 +33,9 @@ router = DefaultRouter()
 
 # 配置商品列表页的url
 router.register('goods', GoodsListViewset)
+
+# 配置商品类型的url
+router.register('categorys', CategoryViewset)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

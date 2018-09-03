@@ -17,6 +17,7 @@ xlwt
 xlsxwriter
 pip install django-guardian
 pip install coreapi
+pip install django-cors-headers
 ``
 拷入DjangoUeditor
 考入xadmin
