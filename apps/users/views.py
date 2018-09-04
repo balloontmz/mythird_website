@@ -9,7 +9,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 
-from users.serializers import SmsSerializer
+from users.serializers import SmsSerializer, UserRegisterSerializer
 from utils.yunpian import YunPian
 from mythird_website.settings import YUNPIAN_API_KEY
 from users.models import VerifyCode
@@ -17,7 +17,7 @@ from users.models import VerifyCode
 User = get_user_model()
 
 
-class CustomBackend(ModelBackend):  # 继承自默认配置的类
+class CustomBackend(ModelBackend):  # 继承自默认配置的类，在setting中配置完之后全局所有应用都适用
     """
     自定义用户验证类
     """
@@ -35,7 +35,7 @@ class SmsCodeViewset(mixins.CreateModelMixin, viewsets.GenericViewSet):
     发送短信验证码
     """
     serializer_class = SmsSerializer
-    queryset = VerifyCode.objects.all()
+    queryset = VerifyCode.objects.all()  # 此参数必须
 
     def generate_code(self):
         """
@@ -70,3 +70,10 @@ class SmsCodeViewset(mixins.CreateModelMixin, viewsets.GenericViewSet):
             return Response({
                 "mobile": mobile,
             }, status=status.HTTP_201_CREATED)
+
+
+class UserViewset(mixins.CreateModelMixin, viewsets.GenericViewSet):
+    """
+    用户
+    """
+    serializer_class = UserRegisterSerializer

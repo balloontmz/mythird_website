@@ -24,7 +24,7 @@ from rest_framework.authtoken import views
 from rest_framework_jwt.views import obtain_jwt_token
 
 from goods.views import GoodsListViewset, CategoryViewset
-from users.views import SmsCodeViewset
+from users.views import SmsCodeViewset, UserViewset
 # from goods.views_base import GoodsListView
 #from goods.views import GoodsListView
 
@@ -42,6 +42,9 @@ router.register('categorys', CategoryViewset)
 
 # 用户注册验证码的url
 router.register('code', SmsCodeViewset)
+
+# 用户注册的url
+router.register('users', UserViewset, base_name="users")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
