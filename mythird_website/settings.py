@@ -167,3 +167,9 @@ JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
     'JWT_AUTH_HEADER_PREFIX': 'JWT',  # token的名字
 }
+
+# 手机号码正则表达式
+REGEX_MOBILE = "^1[358]\d{9}$|^147\d{8}$|^176\d{8}$"
+
+# 云片apikey
+YUNPIAN_API_KEY = "042cdd2e94d8649d2e61d2350da61cc1"
