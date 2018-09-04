@@ -24,3 +24,4 @@ pip install djangorestframework-jwt
 考入xadmin
 chorme加入 vue devtools
 chorme的servistate插件
+jwt的官方文档：https://github.com/GetBlimp/django-rest-framework-jwt/blob/master/docs/index.md

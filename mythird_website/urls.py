@@ -54,8 +54,8 @@ urlpatterns = [
 
     path('docs/', include_docs_urls(title='tom')),
     # drf自带的认证模式
-    path('api-token-auth', views.obtain_auth_token),
+    path('api-token-auth/', views.obtain_auth_token),
 
     # jwt的认证接口
-    path('jwt-auth', obtain_jwt_token),
+    path('login/', obtain_jwt_token),
 ]
