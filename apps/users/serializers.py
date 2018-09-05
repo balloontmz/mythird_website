@@ -39,10 +39,20 @@ class SmsSerializer(serializers.Serializer):
         return mobile
 
 
+class UserDetailSerializer(serializers.ModelSerializer):
+    """
+    用户详情序列化类
+    """
+
+    class Meta:
+        model = User
+        fields = ("name", "gender", "birthday", "mobile", "email")
+
+
 class UserRegisterSerializer(serializers.ModelSerializer):
     code = serializers.CharField(max_length=4, min_length=4, write_only=True, label="验证码",
                                  error_messages={
-                                     "blank": "请输入验证码2",
+                                     "blank": "请输入验证码",
                                      "required": "请输入验证码",
                                      "max_length": "验证码格式错误",
                                      "min_length": "验证码格式错误",

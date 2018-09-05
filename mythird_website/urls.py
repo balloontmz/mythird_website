@@ -63,7 +63,7 @@ urlpatterns = [
 
     path('', include(router.urls)),  # 此处为空字符串，切记
 
-    path('docs/', include_docs_urls(title='tom')),
+    path('docs/', include_docs_urls(title='tomtiddler')),
     # drf自带的认证模式
     path('api-token-auth/', views.obtain_auth_token),
 

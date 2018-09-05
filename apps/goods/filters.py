@@ -9,8 +9,8 @@ class GoodsFilter(filters.FilterSet):  # drf的Filters对该功能进行了拓�
     """
     商品的过滤类
     """
-    pricemin = filters.NumberFilter(field_name="shop_price", lookup_expr='gte')
-    pricemax = filters.NumberFilter(field_name="shop_price", lookup_expr='lte')
+    pricemin = filters.NumberFilter(field_name="shop_price", lookup_expr='gte', help_text="最低价格")
+    pricemax = filters.NumberFilter(field_name="shop_price", lookup_expr='lte', help_text="最高价格")
     # name = filters.CharFilter(field_name="name", lookup_expr='icontains')
     top_category = filters.NumberFilter(method='top_category_filter')
 

@@ -9,8 +9,11 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_jwt.serializers import jwt_encode_handler, jwt_payload_handler
+from rest_framework import permissions
+from rest_framework.authentication import SessionAuthentication
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
-from users.serializers import SmsSerializer, UserRegisterSerializer
+from users.serializers import SmsSerializer, UserRegisterSerializer, UserDetailSerializer
 from utils.yunpian import YunPian
 from mythird_website.settings import YUNPIAN_API_KEY
 from users.models import VerifyCode
@@ -73,12 +76,33 @@ class SmsCodeViewset(mixins.CreateModelMixin, viewsets.GenericViewSet):
             }, status=status.HTTP_201_CREATED)
 
 
-class UserViewset(mixins.CreateModelMixin, viewsets.GenericViewSet):
+class UserViewset(mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """
-    用户
+    create:
+        创建用户
+    read:
+        用户具体信息
     """
-    serializer_class = UserRegisterSerializer
+    # serializer_class = UserRegisterSerializer  # 此处似乎不再需要了
     queryset = User.objects.all()
+    authentication_classes = (SessionAuthentication, JSONWebTokenAuthentication)
+
+    # permission_classes = (permissions.IsAuthenticated, )  需要动态设置
+    def get_permissions(self):
+        if self.action == "retrieve":
+            return [permissions.IsAuthenticated()]
+        elif self.action == "create":
+            return []
+
+        return []
+
+    def get_serializer_class(self):
+        if self.action == "retrieve":
+            return UserDetailSerializer
+        elif self.action == "create":
+            return UserRegisterSerializer
+
+        return UserDetailSerializer
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -91,6 +115,10 @@ class UserViewset(mixins.CreateModelMixin, viewsets.GenericViewSet):
 
         headers = self.get_success_headers(serializer.data)
         return Response(re_dict, status=status.HTTP_201_CREATED, headers=headers)
+
+    # 重写该方法，不管传什么id，都只返回当前用户
+    def get_object(self):
+        return self.request.user
 
     def perform_create(self, serializer):  # 此处重载将user返回
         return serializer.save()
