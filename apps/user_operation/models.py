@@ -17,9 +17,11 @@ class UserFav(models.Model):
 
     add_time = models.DateTimeField(default=datetime.now, verbose_name='添加时间')
 
+    # 构建联合唯一索引防止重复收藏
     class Meta:
         verbose_name = '用户收藏'
         verbose_name_plural = verbose_name
+        unique_together = ("user", "goods")
 
     def __str__(self):
         return self.user.username
