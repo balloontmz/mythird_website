@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from rest_framework import serializers
-from goods.models import Goods, GoodsCategory
+from goods.models import Goods, GoodsCategory, GoodsImage
 
 
 # 一个相对底层的实现方法
@@ -39,8 +39,15 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class GoodsImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GoodsImage
+        fields = ("image",)
+
+
 class GoodsSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
+    images = GoodsImageSerializer(many=True)
 
     class Meta:
         model = Goods

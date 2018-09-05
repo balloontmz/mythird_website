@@ -165,7 +165,7 @@ import datetime
 JWT_AUTH = {
     # 配置详情参见官方文档：https://github.com/GetBlimp/django-rest-framework-jwt/blob/master/docs/index.md
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
-    'JWT_AUTH_HEADER_PREFIX': 'token',  # token的名字
+    'JWT_AUTH_HEADER_PREFIX': 'token',  # token的名字 此处需要和前端联调，所以为token 否则无法正确登录
 }
 
 # 手机号码正则表达式

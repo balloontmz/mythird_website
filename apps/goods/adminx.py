@@ -19,8 +19,7 @@ class GoodsAdmin(object):
         exclude = ["add_time"]
         extra = 1
         style = 'tab'
-
-    # inlines = [GoodsImagesInline]
+    inlines = [GoodsImagesInline]  # 此处用于显示外键的相关信息
 
 
 class GoodsCategoryAdmin(object):
