@@ -63,7 +63,8 @@ class OrderGoods(models.Model):
     """
     订单的商品详情
     """
-    order = models.ForeignKey(OrderInfo, on_delete=models.CASCADE, verbose_name='订单信息')
+    # 此处related_name用于serializer实例化嵌套serializer，从而和前端适配，所以此处需要和前端适配。
+    order = models.ForeignKey(OrderInfo, on_delete=models.CASCADE, related_name="goods", verbose_name='订单信息')
     goods = models.ForeignKey(Goods, on_delete=models.CASCADE, verbose_name='商品')
     goods_num = models.IntegerField(default=0, verbose_name='商品数量')
 

@@ -7,7 +7,7 @@ from rest_framework import permissions
 from rest_framework.authentication import SessionAuthentication
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
-from trade.serializers import ShopCartSerializer, ShopCartDetailSerializer, OrderSerializer
+from trade.serializers import ShopCartSerializer, ShopCartDetailSerializer, OrderSerializer, OrderDetailSerializer
 from trade.models import ShoppingCart, OrderInfo, OrderGoods
 from utils.permissions import IsOwnerOrReadOnly
 
@@ -56,10 +56,16 @@ class OrderViewset(mixins.ListModelMixin,
     """
     authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)  # 对象级别认证
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)  # 验证是否为登录用户,拥有的用户。
-    serializer_class = OrderSerializer
+    # serializer_class = OrderSerializer
 
     def get_queryset(self):  # list方法
         return OrderInfo.objects.filter(user=self.request.user)
+
+    def get_serializer_class(self):
+        if self.action == "retrieve":
+            return OrderDetailSerializer
+        else:
+            return OrderSerializer
 
     # 此功能放到serializer中
     # def generate_order_sn(self):
