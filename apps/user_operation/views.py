@@ -5,8 +5,8 @@ from rest_framework import permissions
 from rest_framework.authentication import SessionAuthentication
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
-from user_operation.models import UserFav, UserLeavingMessage
-from user_operation.serializers import UserFavSerializer, UserFavDetailSerializer, LeavingMsgSerializer
+from user_operation.models import UserFav, UserLeavingMessage, UserAddress
+from user_operation.serializers import UserFavSerializer, UserFavDetailSerializer, LeavingMsgSerializer, AddressSerializer
 from utils.permissions import IsOwnerOrReadOnly
 
 
@@ -55,3 +55,23 @@ class LeavingMsgViewset(mixins.ListModelMixin, mixins.DestroyModelMixin, mixins.
 
     def get_queryset(self):  # 此过滤条件暂时可以直接写入queryset的过滤。
         return UserLeavingMessage.objects.filter(user=self.request.user)
+
+
+class AddressViewset(viewsets.ModelViewSet):
+    """
+    收货地址管理
+    list:
+        获取收货地址
+    create:
+        添加收货地址
+    update:
+        更新收货地址
+    delete:
+        删除收货地址
+    """
+    serializer_class = AddressSerializer
+    authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)  # 对象级别认证
+    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)  # 验证是否为登录用户,拥有的用户。
+
+    def get_queryset(self):  # 此过滤条件暂时可以直接写入queryset的过滤。
+        return UserAddress.objects.filter(user=self.request.user)

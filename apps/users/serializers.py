@@ -67,6 +67,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     #     user.set_password(validated_data["password"])
     #     user.save()
     #     return user
+    # 信号量中改了，所以此处需要注释掉
 
     def validate_code(self, code):
         verify_records = VerifyCode.objects.filter(mobile=self.initial_data["username"]).order_by("-add_time")

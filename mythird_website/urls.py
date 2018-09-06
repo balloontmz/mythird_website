@@ -25,7 +25,7 @@ from rest_framework_jwt.views import obtain_jwt_token
 
 from goods.views import GoodsListViewset, CategoryViewset
 from users.views import SmsCodeViewset, UserViewset
-from user_operation.views import UserFavViewset, LeavingMsgViewset
+from user_operation.views import UserFavViewset, LeavingMsgViewset, AddressViewset
 # from goods.views_base import GoodsListView
 #from goods.views import GoodsListView
 
@@ -52,6 +52,9 @@ router.register('userfavs', UserFavViewset, base_name="userfavs")
 
 # 留言
 router.register('messages', LeavingMsgViewset, base_name="messages")
+
+# 收货地址
+router.register('address', AddressViewset, base_name="address")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
