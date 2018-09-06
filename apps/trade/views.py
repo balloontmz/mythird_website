@@ -21,8 +21,14 @@ class ShoppingCartViewset(viewsets.ModelViewSet):
         加入购物车
     delete:
         删除购物记录
+    read:
+        返回指定商品id的购物车记录
     """
-    queryset = ShoppingCart.objects.all()
+    # queryset = ShoppingCart.objects.all()
     authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)  # 对象级别认证
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)  # 验证是否为登录用户,拥有的用户。
     serializer_class = ShopCartSerializer
+    lookup_field = "goods_id"  # retrieve方法
+
+    def get_queryset(self):  # list方法
+        return ShoppingCart.objects.filter(user=self.request.user)

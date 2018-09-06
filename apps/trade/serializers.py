@@ -33,3 +33,10 @@ class ShopCartSerializer(serializers.Serializer):
             existed = ShoppingCart.objects.create(**validated_data)
 
         return existed
+
+    def update(self, instance, validated_data):
+        # 修改商品数量
+        # 为什么此处直接是实例，猜测和retrieve方法相关。
+        instance.nums = validated_data["nums"]
+        instance.save()
+        return instance
