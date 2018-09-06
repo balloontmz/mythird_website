@@ -5,8 +5,8 @@ from rest_framework import permissions
 from rest_framework.authentication import SessionAuthentication
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
-from user_operation.models import UserFav
-from user_operation.serializers import UserFavSerializer, UserFavDetailSerializer
+from user_operation.models import UserFav, UserLeavingMessage
+from user_operation.serializers import UserFavSerializer, UserFavDetailSerializer, LeavingMsgSerializer
 from utils.permissions import IsOwnerOrReadOnly
 
 
@@ -22,14 +22,14 @@ class UserFavViewset(mixins.CreateModelMixin, mixins.ListModelMixin, mixins.Retr
     delete:
         取消收藏
     """
-    queryset = UserFav.objects.all()  # 由于某些第三方包的依赖问题此行需要保留
+    # queryset = UserFav.objects.all()  # 由于某些第三方包的依赖问题此行需要保留
     authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)  # 对象级别认证
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)  # 验证是否为登录用户,拥有的用户。
     # serializer_class = UserFavSerializer
     lookup_field = "goods_id"  # 单项查找时的搜索字段，默认为pk，可能表示model_id。查询是在query_set之后，已经经过了过滤。
 
     def get_queryset(self):  # 此过滤条件暂时可以直接写入queryset的过滤。
-        return self.queryset.filter(user=self.request.user)
+        return UserFav.objects.filter(user=self.request.user)
 
     def get_serializer_class(self):
         if self.action == "list":
@@ -38,3 +38,20 @@ class UserFavViewset(mixins.CreateModelMixin, mixins.ListModelMixin, mixins.Retr
             return UserFavSerializer
 
         return UserFavSerializer
+
+
+class LeavingMsgViewset(mixins.ListModelMixin, mixins.DestroyModelMixin, mixins.CreateModelMixin, viewsets.GenericViewSet):
+    """
+    list:
+        获取用户留言
+    create:
+        添加留言
+    delete:
+        删除留言
+    """
+    serializer_class = LeavingMsgSerializer
+    authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)  # 对象级别认证
+    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)  # 验证是否为登录用户,拥有的用户。
+
+    def get_queryset(self):  # 此过滤条件暂时可以直接写入queryset的过滤。
+        return UserLeavingMessage.objects.filter(user=self.request.user)

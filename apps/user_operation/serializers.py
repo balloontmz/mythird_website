@@ -3,7 +3,7 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
-from user_operation.models import UserFav
+from user_operation.models import UserFav, UserLeavingMessage
 from goods.serializers import GoodsSerializer
 
 
@@ -31,3 +31,14 @@ class UserFavSerializer(serializers.ModelSerializer):
             )]
 
         fields = ("user", "goods", "id")
+
+
+class LeavingMsgSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
+    add_time = serializers.DateTimeField(read_only=True, format="%Y-%m-%d %H:%M:%S")
+
+    class Meta:
+        model = UserLeavingMessage
+        fields = ("id", "user", "message_type", "subject", "message", "file", "add_time")
