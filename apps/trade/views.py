@@ -6,12 +6,11 @@ from rest_framework.authentication import SessionAuthentication
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from trade.models import ShoppingCart
-from trade.serializers import ShopCartSerializer
+from trade.serializers import ShopCartSerializer, ShopCartDetailSerializer
 from trade.models import ShoppingCart
 from utils.permissions import IsOwnerOrReadOnly
 
 
-# Create your views here.
 class ShoppingCartViewset(viewsets.ModelViewSet):
     """
     购物车功能开发
@@ -27,8 +26,15 @@ class ShoppingCartViewset(viewsets.ModelViewSet):
     # queryset = ShoppingCart.objects.all()
     authentication_classes = (JSONWebTokenAuthentication, SessionAuthentication)  # 对象级别认证
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)  # 验证是否为登录用户,拥有的用户。
-    serializer_class = ShopCartSerializer
+    # serializer_class = ShopCartSerializer  # 动态加载了serializer了，此行应该能够注释掉？
     lookup_field = "goods_id"  # retrieve方法
 
     def get_queryset(self):  # list方法
         return ShoppingCart.objects.filter(user=self.request.user)
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return ShopCartDetailSerializer
+        else:
+            return ShopCartSerializer
+
