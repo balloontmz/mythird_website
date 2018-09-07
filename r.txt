@@ -1,9 +1,8 @@
-``
 pymysql
 django
 djangorestframework
 markdown
-django-filter 
+django-filter
 pillow
 django-crispy-forms
 django-import-export
@@ -19,9 +18,3 @@ coreapi
 django-cors-headers
 djangorestframework-jwt
 pycryptodome
-``
-拷入DjangoUeditor
-考入xadmin
-chorme加入 vue devtools
-chorme的servistate插件
-jwt的官方文档：https://github.com/GetBlimp/django-rest-framework-jwt/blob/master/docs/index.md
