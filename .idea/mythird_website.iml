@@ -16,7 +16,7 @@
       <sourceFolder url="file://$MODULE_DIR$/apps" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/extra_apps" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.6 (mythird_website)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Remote Python 3.6.2 (ssh://root@120.79.157.29:22/srv/mythird_website/third/bin/python)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="R User Library" level="project" />
     <orderEntry type="library" name="R Skeletons" level="application" />

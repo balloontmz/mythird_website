@@ -64,7 +64,7 @@ class Alipay(object):
 
         if return_url is not None:
             data["notify_url"] = self.app_notify_url
-            data["return_url"] = self. return_url
+            data["return_url"] = self.return_url
 
         return data
 
@@ -101,41 +101,55 @@ class Alipay(object):
         sign = encodebytes(signature).decode("utf8").replace("\n", "")
         return sign
 
-    # def _verify(self, raw_content, signature):
-    #     # 开始计算签名
-    #     key = self.alipay_public_key
-    #     signer = PKCS1_v1_5.new(key)
-    #     digest = SHA256.new()
-    #     digest.update(raw_content.encode("utf8"))
-    #     if signer.verify(digest, decodebytes(signature.encode("utf8"))):
-    #         return True
-    #     return False
-    #
-    # def verify(self, data, signature):
-    #     if "sign_type" in data:
-    #         sign_type = data.pop("sign_type")
-    #     # 排序后的字符串
-    #     unsigned_items = self.ordered_data(data)
-    #     message = "&".join(u"{}={}".format(k, v) for k, v in unsigned_items)
-    #     return self._verify(message, signature)
+    def _verify(self, raw_content, signature):
+        # 开始计算签名
+        key = self.alipay_public_key
+        signer = PKCS1_v1_5.new(key)
+        digest =SHA256.new()
+        digest.update(raw_content.encode("utf8"))
+        if signer.verify(digest, decodebytes(signature.encode("utf8"))):
+            return True
+        return False
+
+    def verify(self, data, signature):
+        if "sign_type" in data:
+            sign_type = data.pop("sign_type")
+        # 排序后的字符串
+        unsigned_items = self.ordered_data(data)
+        message = "&".join(u"{}={}".format(k, v) for k, v in unsigned_items)
+        return self._verify(message, signature)
 
 
 if __name__ == "__main__":
     alipay = Alipay(
         appid="2016091600527206",
-        app_notify_url="https://120.79.157.29",
-        app_private_key_path="/home/tomtiddler/Documents/vue_shop/mythird_website/apps/trade/keys/app_private_key.pem",
-        alipay_public_key_path="/home/tomtiddler/Documents/vue_shop/mythird_website/apps/trade/keys/alipay_public_key.pem",
+        app_notify_url="https://120.79.157.29:8001/alipay/return/",
+        app_private_key_path="../trade/keys/app_private_key.pem",
+        alipay_public_key_path="../trade/keys/alipay_public_key.pem",
         debug=True,
-        return_url="https://120.79.157.29"
+        return_url="https://120.79.157.29:8001/alipay/return/"
     )
 
+    # 回调url的测试代码
+    # return_url = "https://120.79.157.29/?charset=utf-8&out_trade_no=20180920701&method=alipay.trade.page.pay.return&total_amount=100.00&sign=HNYWCL81ki0QLL1Din8KCKJCi9DeRC2mrM6iLJPcsf%2FkwoyxDUUnz6CXc%2Bp5dS5i6wv4jwB7pO5etHs8Hq4DabldcNBJhwy6UZSX%2FfPK2xyDYA6x2CdWor%2FQQbwFgSdeP0Dvp9G2YTB4fa2hP9uwe5artESd0%2BIwtizBd3HEEmhjnDVu1Qe6mvOvf%2FzyCW71j2%2BxxhKLurU19njVAPW1dWCzsHf0DPGXzXbZ3EiqoWu06CqmMTUaMRmp7g9TDHOGRvC7dnFdBM2lZObzM%2Fz%2BjN3RmuAllEGHip62qpxkdrm8mOmjt%2F8QojKlaNRqB1ISILBToQJsSC17S8T72hnkmw%3D%3D&trade_no=2018090821001004670200977974&auth_app_id=2016091600527206&version=1.0&app_id=2016091600527206&sign_type=RSA2&seller_id=2088102175937843&timestamp=2018-09-08+23%3A05%3A36"
+    # o = urlparse(return_url)
+    # query = parse_qs(o.query)
+    # processed_query = {}
+    # ali_sign = query.pop("sign")[0]
+    #
+    # for key, value in query.items():
+    #     processed_query[key] = value[0]
+    # print(alipay.verify(processed_query, ali_sign))
+
+    # 生成订单的测试代码
     url = alipay.direct_pay(
         subject="测试订单",
-        out_trade_no="2018090701",
-        total_amount=100
+        out_trade_no="201228021222242920701",
+        total_amount=100,
+        return_url="https://120.79.157.29"
     )
     re_url = "https://openapi.alipaydev.com/gateway.do?{data}".format(data=url)
     print(re_url)
+
     # 以下用于验证密钥正确性，没问题，需要再仔细检查参数
     # print(alipay.sign("a=123".encode("utf-8")))

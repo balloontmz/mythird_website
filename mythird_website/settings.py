@@ -173,3 +173,7 @@ REGEX_MOBILE = "^1[358]\d{9}$|^147\d{8}$|^176\d{8}$"
 
 # 云片apikey
 YUNPIAN_API_KEY = "042cdd2e94d8649d2e61d2350da61cc1"
+
+# 支付宝相关配置
+private_key_path = os.path.join(BASE_DIR, 'apps/trade/keys/app_private_key.pem')
+ali_pub_key_path = os.path.join(BASE_DIR, 'apps/trade/keys/alipay_public_key.pem')

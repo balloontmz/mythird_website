@@ -26,7 +26,7 @@ from rest_framework_jwt.views import obtain_jwt_token
 from goods.views import GoodsListViewset, CategoryViewset
 from users.views import SmsCodeViewset, UserViewset
 from user_operation.views import UserFavViewset, LeavingMsgViewset, AddressViewset
-from trade.views import ShoppingCartViewset, OrderViewset
+from trade.views import ShoppingCartViewset, OrderViewset, AliPayView
 # from goods.views_base import GoodsListView
 #from goods.views import GoodsListView
 
@@ -36,6 +36,7 @@ from trade.views import ShoppingCartViewset, OrderViewset
 
 router = DefaultRouter()
 
+# viewset重写了as_view才能调用router。其他好像不能？
 # 配置商品列表页的url
 router.register('goods', GoodsListViewset)
 
@@ -77,9 +78,13 @@ urlpatterns = [
     path('', include(router.urls)),  # 此处为空字符串，切记
 
     path('docs/', include_docs_urls(title='tomtiddler')),
+
     # drf自带的认证模式
     path('api-token-auth/', views.obtain_auth_token),
 
     # jwt的认证接口
     path('login/', obtain_jwt_token),
+
+    # 支付宝接口，为什么不写入router？还是不能？忘了
+    path('alipay/return/', AliPayView.as_view()),
 ]
