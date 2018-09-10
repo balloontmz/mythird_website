@@ -14,6 +14,9 @@ from mythird_website.settings import ali_pub_key_path, private_key_path
 
 
 class ShopCartDetailSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
     goods = GoodsSerializer(many=False)
 
     class Meta:
@@ -45,6 +48,9 @@ class ShopCartSerializer(serializers.Serializer):
             existed.save()
         else:
             existed = ShoppingCart.objects.create(**validated_data)
+
+        goods.goods_num -= nums
+        goods.save()
 
         return existed
 

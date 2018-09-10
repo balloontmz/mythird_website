@@ -11,7 +11,8 @@ from utils.permissions import IsOwnerOrReadOnly
 
 
 # Create your views here.
-class UserFavViewset(mixins.CreateModelMixin, mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet):
+class UserFavViewset(mixins.CreateModelMixin, mixins.ListModelMixin,
+                     mixins.RetrieveModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet):
     """
     list:
         个人中心用户收藏功能
@@ -30,6 +31,12 @@ class UserFavViewset(mixins.CreateModelMixin, mixins.ListModelMixin, mixins.Retr
 
     def get_queryset(self):  # 此过滤条件暂时可以直接写入queryset的过滤。
         return UserFav.objects.filter(user=self.request.user)
+
+    # def perform_create(self, serializer):
+    #     instance = serializer.save()
+    #     goods = instance.goods
+    #     goods.fav_num += 1
+    #     goods.save()
 
     def get_serializer_class(self):
         if self.action == "list":

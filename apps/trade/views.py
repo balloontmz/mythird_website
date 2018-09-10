@@ -35,12 +35,34 @@ class ShoppingCartViewset(viewsets.ModelViewSet):
     # serializer_class = ShopCartSerializer  # 动态加载了serializer了，此行应该能够注释掉？
     lookup_field = "goods_id"  # retrieve方法
 
+    # 此方法存在漏洞，由于添加购物车有可能是create中的更新操作，此方法无法辨别，而是减去了过多的商品数量
+    # def perform_create(self, serializer):
+    #     shop_cart = serializer.save()
+    #     goods = shop_cart.goods
+    #     goods.goods_num -= shop_cart.nums
+    #     goods.save()
+
+    def perform_destroy(self, instance):
+        goods = instance.goods
+        goods.goods_num += instance.nums
+        goods.save()
+        instance.delete()
+
+    def perform_update(self, serializer):
+        existed_record = ShoppingCart.objects.filter(id=serializer.instance.id)[0]
+        existed_nums = existed_record.nums
+        save_record = serializer.save()
+        nums = save_record.nums - existed_nums
+        goods = save_record.goods
+        goods.goods_num -= nums
+        goods.save()
+
     def get_queryset(self):  # list方法
         return ShoppingCart.objects.filter(user=self.request.user)
 
     def get_serializer_class(self):
         if self.action == "list":
-            return ShopCartDetailSerializer
+            return ShopCartDetailSerializer  # 对应读取功能，购物车不存在读取每一项细节，所以list够了。
         else:
             return ShopCartSerializer
 
@@ -161,6 +183,13 @@ class AliPayView(APIView):
 
             existed_orders = OrderInfo.objects.filter(order_sn=order_sn)
             for existed_order in existed_orders:
+                # 交易成功销量增加
+                order_goods = existed_order.goods.all()
+                for order_good in order_goods:
+                    goods = order_good.goods
+                    goods.sold_num += order_good.goods_num
+                    goods.save()
+
                 existed_order.pay_status = trade_status
                 existed_order.trade_no = trade_no
                 existed_order.pay_time = datetime.now()

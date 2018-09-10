@@ -23,7 +23,7 @@ from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
 from rest_framework_jwt.views import obtain_jwt_token
 
-from goods.views import GoodsListViewset, CategoryViewset
+from goods.views import GoodsListViewset, CategoryViewset, BannerViewset, IndexCategoryViewset
 from users.views import SmsCodeViewset, UserViewset
 from user_operation.views import UserFavViewset, LeavingMsgViewset, AddressViewset
 from trade.views import ShoppingCartViewset, OrderViewset, AliPayView
@@ -63,6 +63,13 @@ router.register('shopcarts', ShoppingCartViewset, base_name="shopcarts")
 
 # 订单功能
 router.register('orders', OrderViewset, base_name="orders")
+
+# 轮播图url
+router.register('banners', BannerViewset, base_name="banners")
+
+# 首页商品细类数据
+router.register('indexgoods', IndexCategoryViewset, base_name="indexgoods")
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),

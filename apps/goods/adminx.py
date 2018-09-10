@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import xadmin
-from .models import Goods, GoodsCategory, GoodsCategoryBrand, Banner, GoodsImage  # HotSearchWords
+from .models import Goods, GoodsCategory, GoodsCategoryBrand, Banner, GoodsImage, IndexAd  # HotSearchWords
 # from .models import IndexAd
 
 
@@ -46,8 +46,14 @@ class BannerGoodsAdmin(object):
 #     list_display = ["keywords", "index", "add_time"]
 
 
-# class IndexAdAdmin(object):
-#     list_display = ["category", "goods"]
+class IndexAdAdmin(object):
+    list_display = ["category", "goods"]
+
+    def get_context(self):
+        context = super(IndexAdAdmin, self).get_context()
+        if 'form' in context:
+            context['form'].fields['category'].queryset = GoodsCategory.objects.filter(category_type=1)
+        return context
 
 
 xadmin.site.register(Goods, GoodsAdmin)
@@ -56,5 +62,5 @@ xadmin.site.register(Banner, BannerGoodsAdmin)
 xadmin.site.register(GoodsCategoryBrand, GoodsBrandAdmin)
 
 # xadmin.site.register(HotSearchWords, HotSearchAdmin)
-# xadmin.site.register(IndexAd, IndexAdAdmin)
+xadmin.site.register(IndexAd, IndexAdAdmin)
 
