@@ -159,6 +159,15 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
+    # 限速策略配置，也可以在类内配置
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.AnonRateThrottle',  # 未登录请求，通过ip判断
+        'rest_framework.throttling.UserRateThrottle'  # 登录用户请求
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/day',
+        'user': '1000/day'
+    }
 }
 
 import datetime
@@ -177,3 +186,19 @@ YUNPIAN_API_KEY = "042cdd2e94d8649d2e61d2350da61cc1"
 # 支付宝相关配置
 private_key_path = os.path.join(BASE_DIR, 'apps/trade/keys/app_private_key.pem')
 ali_pub_key_path = os.path.join(BASE_DIR, 'apps/trade/keys/alipay_public_key.pem')
+
+# rest_framework_extensions相关配置
+REST_FRAMEWORK_EXTENSIONS = {
+    'DEFAULT_CACHE_RESPONSE_TIMEOUT': 60,  # 过期时间
+}
+
+# 配置redis缓存
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}

@@ -18,3 +18,5 @@ coreapi
 django-cors-headers
 djangorestframework-jwt
 pycryptodome
+drf-extensions
+django-redis

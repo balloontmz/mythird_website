@@ -3,12 +3,14 @@
 # from rest_framework.response import Response
 # from rest_framework import generics
 # from rest_framework.authentication import TokenAuthentication
+# from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 from rest_framework import mixins
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
+from rest_framework_extensions.cache.mixins import CacheResponseMixin
 
 from goods.models import Goods, GoodsCategory, Banner
 from goods.serializers import GoodsSerializer, CategorySerializer, BannerSerializer, IndexCategorySerializer
@@ -62,13 +64,14 @@ class StandardResultsSetPagination(PageNumberPagination):
 #     ordering_param = "fcu"
 
 
-class GoodsListViewset(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class GoodsListViewset(CacheResponseMixin, mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """
     list:
         商品列表页，分页，搜索，过滤，排序
     read:
         商品详情页
     """
+    # throttle_classes = (UserRateThrottle, AnonRateThrottle)
     queryset = Goods.objects.all()
     serializer_class = GoodsSerializer
     pagination_class = StandardResultsSetPagination  # 此参数及功能在GenericApiView中

@@ -19,6 +19,8 @@ coreapi
 django-cors-headers
 djangorestframework-jwt
 pycryptodome
+drf-extensions
+django-redis
 ``
 拷入DjangoUeditor
 考入xadmin
