@@ -89,8 +89,8 @@ urlpatterns = [
     # drf自带的认证模式
     path('api-token-auth/', views.obtain_auth_token),
 
-    # jwt的认证接口,登录接口
-    path('login/', obtain_jwt_token),
+    # jwt的认证接口,登录接口,此处用正则表达式限定内容，防止login之后带参数而导致无法登录第三方
+    re_path(r'^login/$', obtain_jwt_token),
 
     # 支付宝接口，为什么不写入router？还是不能？忘了,应该是apiview没有实现router方法
     path('alipay/return/', AliPayView.as_view()),
