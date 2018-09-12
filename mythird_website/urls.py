@@ -16,12 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path, include
 from django.views.static import serve
+from django.views.generic import TemplateView
 from rest_framework.documentation import include_docs_urls
-import xadmin
-from mythird_website.settings import MEDIA_ROOT
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
 from rest_framework_jwt.views import obtain_jwt_token
+
+import xadmin
+from mythird_website.settings import MEDIA_ROOT
 
 from goods.views import GoodsListViewset, CategoryViewset, BannerViewset, IndexCategoryViewset
 from users.views import SmsCodeViewset, UserViewset
@@ -96,6 +98,8 @@ urlpatterns = [
     path('alipay/return/', AliPayView.as_view()),
 
     # 第三方登录url, 可查看源码
-    path('', include('social_django.urls', namespace='social'))
+    path('', include('social_django.urls', namespace='social')),
+
+    path('index/', TemplateView.as_view(template_name='index.html'), name='index'),
 
 ]
