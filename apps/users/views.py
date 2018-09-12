@@ -109,6 +109,7 @@ class UserViewset(mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.Retri
         serializer.is_valid(raise_exception=True)
         user = self.perform_create(serializer)
 
+        # 此处的分析源码需要再看一遍,源码在drf-jwt的serializer中，主要是两个处理函数
         re_dict = serializer.data
         payload = jwt_payload_handler(user)
         re_dict['token'] = jwt_encode_handler(payload)
@@ -120,5 +121,5 @@ class UserViewset(mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.Retri
     def get_object(self):
         return self.request.user
 
-    def perform_create(self, serializer):  # 此处重载将user返回
+    def perform_create(self, serializer):  # 此处重载将user返回,重载的create方法需要用到serializer的数据
         return serializer.save()

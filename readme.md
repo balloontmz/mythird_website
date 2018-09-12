@@ -21,7 +21,10 @@ djangorestframework-jwt
 pycryptodome
 drf-extensions
 django-redis
+social-auth-app-django
 ``
+install app 'social_django',
+
 拷入DjangoUeditor
 考入xadmin
 chorme加入 vue devtools

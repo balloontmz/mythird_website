@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'django_filters',
     'corsheaders',  # 跨域
     'rest_framework.authtoken',  # token
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -82,6 +83,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # 以下两个感觉暂时没必要加，并未采用template
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -102,7 +106,7 @@ DATABASES = {
         'PASSWORD': '123456',
         'HOST': '127.0.0.1',
         # 设置数据库引擎，用于第三方软件对数据库的操作，此处无需
-        # 'OPTIONS': {'init_command': 'SET storage_engine=INNOOB;'}
+        'OPTIONS': {'init_command': 'SET default_storage_engine=INNODB;'}
     }
 }
 
@@ -141,6 +145,11 @@ USE_L10N = True
 USE_TZ = False
 
 AUTHENTICATION_BACKENDS = (
+    'social_core.backends.weibo.WeiboOAuth2',
+    'social_core.backends.qq.QQOAuth2',
+    'social_core.backends.weixin.WeixinOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+    # 以上为第三方登录到的配置。具体需要查看源码
     'users.views.CustomBackend',
 )
 

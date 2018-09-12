@@ -20,3 +20,4 @@ djangorestframework-jwt
 pycryptodome
 drf-extensions
 django-redis
+social-auth-app-django
