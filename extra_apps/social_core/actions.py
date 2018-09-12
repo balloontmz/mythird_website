@@ -1,5 +1,7 @@
 from six.moves.urllib_parse import quote
 
+from rest_framework_jwt.serializers import jwt_encode_handler, jwt_payload_handler
+
 from .utils import sanitize_redirect, user_is_authenticated, \
                    user_is_active, partial_pipeline_data, setting_url
 
@@ -95,7 +97,15 @@ def do_complete(backend, login, user=None, redirect_name='next',
                         [backend.strategy.request_host()]
         url = sanitize_redirect(allowed_hosts, url) or \
               backend.setting('LOGIN_REDIRECT_URL')
-    return backend.strategy.redirect(url)
+
+    response = backend.strategy.redirect(url)
+
+    payload = jwt_payload_handler(user)
+    # 设置cookie，设置过期时间！！！
+    response.set_cookie("name", user.name if user.name else user.username, max_age=24*3600)
+    response.set_cookie("token", jwt_encode_handler(payload), max_age=24*360)
+
+    return response
 
 
 def do_disconnect(backend, user, association_id=None, redirect_name='next',
