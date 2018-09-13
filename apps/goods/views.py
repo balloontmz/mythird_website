@@ -12,8 +12,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
 from rest_framework_extensions.cache.mixins import CacheResponseMixin
 
-from goods.models import Goods, GoodsCategory, Banner
-from goods.serializers import GoodsSerializer, CategorySerializer, BannerSerializer, IndexCategorySerializer
+from goods.models import Goods, GoodsCategory, Banner, HotSearchWords
+from goods.serializers import GoodsSerializer, CategorySerializer, BannerSerializer, IndexCategorySerializer, HotWordsSerializer
 from goods.filters import GoodsFilter
 
 
@@ -114,3 +114,11 @@ class IndexCategoryViewset(mixins.ListModelMixin, viewsets.GenericViewSet):
     """
     queryset = GoodsCategory.objects.filter(is_tab=True)
     serializer_class = IndexCategorySerializer
+
+
+class HotSearchViewset(mixins.CreateModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet):
+    """
+    获取热搜
+    """
+    queryset = HotSearchWords.objects.all().order_by("-index")[:3]
+    serializer_class = HotWordsSerializer

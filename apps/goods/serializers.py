@@ -2,7 +2,7 @@
 from django.db.models import Q
 from rest_framework import serializers
 
-from goods.models import Goods, GoodsCategory, GoodsImage, Banner, GoodsCategoryBrand, IndexAd
+from goods.models import Goods, GoodsCategory, GoodsImage, Banner, GoodsCategoryBrand, IndexAd, HotSearchWords
 
 
 # 一个相对底层的实现方法
@@ -94,4 +94,10 @@ class IndexCategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GoodsCategory
+        fields = "__all__"
+
+
+class HotWordsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HotSearchWords
         fields = "__all__"

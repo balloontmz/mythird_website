@@ -10,11 +10,12 @@ class UserFavAdmin(object):
 
 
 class UserLeavingMessageAdmin(object):
-    list_display = ['user', 'msg_type', "message", "add_time"]
+    list_display = ['user', 'message_type', "message", "add_time"]
 
 
 class UserAddressAdmin(object):
     list_display = ["signer_name", "signer_mobile", "district", "address"]
+
 
 xadmin.site.register(UserFav, UserFavAdmin)
 xadmin.site.register(UserAddress, UserAddressAdmin)

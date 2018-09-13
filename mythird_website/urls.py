@@ -25,7 +25,7 @@ from rest_framework_jwt.views import obtain_jwt_token
 import xadmin
 from mythird_website.settings import MEDIA_ROOT
 
-from goods.views import GoodsListViewset, CategoryViewset, BannerViewset, IndexCategoryViewset
+from goods.views import GoodsListViewset, CategoryViewset, BannerViewset, IndexCategoryViewset, HotSearchViewset
 from users.views import SmsCodeViewset, UserViewset
 from user_operation.views import UserFavViewset, LeavingMsgViewset, AddressViewset
 from trade.views import ShoppingCartViewset, OrderViewset, AliPayView
@@ -71,6 +71,9 @@ router.register('banners', BannerViewset, base_name="banners")
 
 # 首页商品细类数据
 router.register('indexgoods', IndexCategoryViewset, base_name="indexgoods")
+
+# 热搜
+router.register('hotsearchs', HotSearchViewset, base_name="hotsearchs")
 
 
 urlpatterns = [
