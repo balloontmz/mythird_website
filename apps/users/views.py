@@ -109,6 +109,7 @@ class UserViewset(mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.Retri
         serializer.is_valid(raise_exception=True)
         user = self.perform_create(serializer)
 
+        # 此处前端要求的字典就是token和name，所以可以直接传字典，不然就是乡social_django的set—cookie
         # 此处的分析源码需要再看一遍,源码在drf-jwt的serializer中，主要是两个处理函数
         re_dict = serializer.data
         payload = jwt_payload_handler(user)

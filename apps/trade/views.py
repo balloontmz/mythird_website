@@ -131,11 +131,11 @@ class AliPayView(APIView):
         sign = processed_dict.pop("sign", None)
         alipay = Alipay(
             appid="2016091600527206",
-            app_notify_url="https://120.79.157.29:8001/alipay/return/",
+            app_notify_url="https://vue.crazyballoon.xin/alipay/return/",
             app_private_key_path=private_key_path,
             alipay_public_key_path=ali_pub_key_path,
             debug=True,
-            return_url="https://120.79.157.29:8001/alipay/return/"
+            return_url="https://vue.crazyballoon.xin/alipay/return/"
         )
 
         verify_result = alipay.verify(processed_dict, sign)  # 此处理想返回True
@@ -167,11 +167,11 @@ class AliPayView(APIView):
         sign = processed_dict.pop("sign", None)
         alipay = Alipay(
             appid="2016091600527206",
-            app_notify_url="https://120.79.157.29:8001/alipay/return/",
+            app_notify_url="https://vue.crazyballoon.xin/alipay/return/",
             app_private_key_path=private_key_path,
             alipay_public_key_path=ali_pub_key_path,
             debug=True,
-            return_url="https://120.79.157.29:8001/alipay/return/"
+            return_url="https://vue.crazyballoon.xin/alipay/return/"
         )
 
         verify_result = alipay.verify(processed_dict, sign)  # 此处理想返回True

@@ -82,7 +82,7 @@ urlpatterns = [
     # 用于api详情页面登录功能
     path('api-auth/', include('rest_framework.urls')),
 
-    re_path('media/(?P<path>.*)', serve, {'document_root': MEDIA_ROOT}),
+    re_path('media/(?P<path>.*)', serve, {'document_root': MEDIA_ROOT}),  # nginx代理了media
 
     # 商品列表页
     # path('goods/', goods_list, name='goods-list'),

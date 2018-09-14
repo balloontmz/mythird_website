@@ -6,7 +6,7 @@ import sys
 import os
 # 先初始化环境
 pwd = os.path.dirname(os.path.realpath(__file__))
-sys.path.append(pwd+'../')
+sys.path.append(pwd+'../')   # 当前目录的上级目录
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mythird_website.settings')  # 单独使用model必须拿过来 manage中
 
 import django
