@@ -57,7 +57,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  # 跨域问题
+    'corsheaders.middleware.CorsMiddleware',  # 跨域问题 notes:此拦截器 似乎可以代理csrf。所以前端不需要传csrf。具体百度
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
